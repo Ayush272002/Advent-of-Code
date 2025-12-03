@@ -53,7 +53,7 @@ int part2(std::vector<std::string> &combinations) {
 
 int main() {
     try {
-        std::vector<std::string> input = AOC::fetchAOCInput(2025, 1);
+        std::vector<std::string> input = AOC::fetchAOCInputVector(2025, 1);
         std::println("Part 1 ans : {}", part1(input));
         std::println("Part 2 ans : {}", part2(input));
 

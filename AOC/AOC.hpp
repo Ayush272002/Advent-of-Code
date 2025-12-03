@@ -3,5 +3,6 @@
 #include <string>
 
 namespace AOC {
-    std::vector<std::string> fetchAOCInput(int year, int day);
+    std::string fetchRawInput(int year, int day);
+    std::vector<std::string> fetchAOCInputVector(int year, int day);
 }

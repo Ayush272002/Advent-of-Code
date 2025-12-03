@@ -15,13 +15,21 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.env
 
 find_package(CURL REQUIRED)
 
+include(FetchContent)
+FetchContent_Declare(
+        dotenv
+        GIT_REPOSITORY https://github.com/Ayush272002/dotenv.git
+        GIT_TAG        v1.0.1
+)
+FetchContent_MakeAvailable(dotenv)
+
 add_library(AOC STATIC
         AOC/AOC.cpp
         AOC/AOC.hpp
 )
 
 target_include_directories(AOC PUBLIC AOC)
-target_link_libraries(AOC PUBLIC CURL::libcurl)
+target_link_libraries(AOC PUBLIC CURL::libcurl dotenv)
 
 file(GLOB_RECURSE AOC_SOLUTIONS "${CMAKE_CURRENT_SOURCE_DIR}/src/*/*.cpp")
 

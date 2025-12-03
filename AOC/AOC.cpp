@@ -7,43 +7,14 @@
 #include <vector>
 #include <optional>
 #include <algorithm>
+#include <iostream>
+#include <dotenv/dotenv.hpp>
 
 namespace AOC {
     static std::optional<std::string> loadAOCSession(const std::string &filename = ".env") {
-        std::filesystem::path current = std::filesystem::current_path();
-
-        while (true) {
-            std::filesystem::path envPath = current / filename;
-            if (std::filesystem::exists(envPath)) {
-                std::ifstream envFile(envPath);
-                std::string line;
-                while (std::getline(envFile, line)) {
-                    line.erase(0, line.find_first_not_of(" \t"));
-                    line.erase(line.find_last_not_of(" \t\r\n") + 1);
-
-                    if (line.empty() || line[0] == '#') continue;
-
-                    auto pos = line.find('=');
-                    if (pos == std::string::npos) continue;
-
-                    std::string key = line.substr(0, pos);
-                    std::string value = line.substr(pos + 1);
-
-                    if (!value.empty() && value.front() == '"' && value.back() == '"')
-                        value = value.substr(1, value.size() - 2);
-
-                    if (key == "AOC_SESSION")
-                        return value;
-                }
-            }
-
-            if (current.has_parent_path())
-                current = current.parent_path();
-            else
-                break;
-        }
-
-        return std::nullopt;
+        dotenv::load("../.env");
+        auto sessionOpt = dotenv::get<std::string>("AOC_SESSION");
+        return sessionOpt;
     }
 
     static size_t WriteCallback(void *contents, const size_t size, const size_t nmemb, void *userp) {
@@ -52,8 +23,8 @@ namespace AOC {
         return size * nmemb;
     }
 
-    static std::string fetchRawInput(const int year, const int day) {
-        auto sessionOpt = loadAOCSession();
+    std::string fetchRawInput(const int year, const int day) {
+        const auto sessionOpt = loadAOCSession();
         if (!sessionOpt) {
             throw std::runtime_error("AOC_SESSION not found in .env");
         }
@@ -83,7 +54,7 @@ namespace AOC {
         return response;
     }
 
-    std::vector<std::string> fetchAOCInput(const int year, const int day) {
+    std::vector<std::string> fetchAOCInputVector(const int year, const int day) {
         const std::string rawInput = fetchRawInput(year, day);
         std::istringstream iss(rawInput);
 
