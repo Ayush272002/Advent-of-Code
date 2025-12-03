@@ -1,25 +1,29 @@
 #include "AOC.hpp"
+
 #include <curl/curl.h>
-#include <stdexcept>
-#include <sstream>
+
+#include <algorithm>
+#include <dotenv/dotenv.hpp>
 #include <fstream>
+#include <iostream>
+#include <optional>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
-#include <optional>
-#include <algorithm>
-#include <iostream>
-#include <dotenv/dotenv.hpp>
 
 namespace AOC {
-    static std::optional<std::string> loadAOCSession(const std::string &filename = ".env") {
+    static std::optional<std::string> loadAOCSession(
+        const std::string& filename = ".env") {
         dotenv::load("../.env");
         auto sessionOpt = dotenv::get<std::string>("AOC_SESSION");
         return sessionOpt;
     }
 
-    static size_t WriteCallback(void *contents, const size_t size, const size_t nmemb, void *userp) {
-        std::string &response = *static_cast<std::string *>(userp);
-        response.append(static_cast<char *>(contents), size * nmemb);
+    static size_t WriteCallback(void* contents, const size_t size,
+                                const size_t nmemb, void* userp) {
+        std::string& response = *static_cast<std::string*>(userp);
+        response.append(static_cast<char*>(contents), size * nmemb);
         return size * nmemb;
     }
 
@@ -28,12 +32,13 @@ namespace AOC {
         if (!sessionOpt) {
             throw std::runtime_error("AOC_SESSION not found in .env");
         }
-        const std::string &session = *sessionOpt;
+        const std::string& session = *sessionOpt;
 
-        const std::string url = "https://adventofcode.com/" + std::to_string(year) +
-                                "/day/" + std::to_string(day) + "/input";
+        const std::string url = "https://adventofcode.com/" +
+                                std::to_string(year) + "/day/" +
+                                std::to_string(day) + "/input";
 
-        CURL *curl = curl_easy_init();
+        CURL* curl = curl_easy_init();
         if (!curl) throw std::runtime_error("Failed to initialize curl.");
 
         std::string response;
@@ -54,7 +59,8 @@ namespace AOC {
         return response;
     }
 
-    std::vector<std::string> fetchAOCInputVector(const int year, const int day) {
+    std::vector<std::string> fetchAOCInputVector(const int year,
+                                                 const int day) {
         const std::string rawInput = fetchRawInput(year, day);
         std::istringstream iss(rawInput);
 
@@ -69,4 +75,4 @@ namespace AOC {
 
         return lines;
     }
-}
+}  // namespace AOC

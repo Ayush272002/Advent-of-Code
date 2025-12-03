@@ -1,7 +1,8 @@
-#include <vector>
-#include "AOC.hpp"
-#include <print>
 #include <iostream>
+#include <print>
+#include <vector>
+
+#include "AOC.hpp"
 
 int bestForLine(const std::string_view s) {
     const std::size_t n = s.size();
@@ -35,7 +36,7 @@ std::string best12(const std::string_view s) {
 
     std::size_t removed = 0;
 
-    for (const char c: s) {
+    for (const char c : s) {
         while (!stack.empty() && removed < toRemove && stack.back() < c) {
             stack.pop_back();
             ++removed;
@@ -47,19 +48,19 @@ std::string best12(const std::string_view s) {
     return stack.substr(0, K);
 }
 
-int part1(const std::vector<std::string> &input) {
+int part1(const std::vector<std::string>& input) {
     int sum = 0;
-    for (const auto &line: input) {
+    for (const auto& line : input) {
         sum += bestForLine(line);
     }
 
     return sum;
 }
 
-long long part2(const std::vector<std::string> &input) {
+long long part2(const std::vector<std::string>& input) {
     long long sum = 0;
 
-    for (const auto &line: input) {
+    for (const auto& line : input) {
         std::string best = best12(line);
         sum += std::stoll(best);
     }
@@ -69,11 +70,12 @@ long long part2(const std::vector<std::string> &input) {
 
 int main() {
     try {
-        const std::vector<std::string> input = AOC::fetchAOCInputVector(2025, 3);
+        const std::vector<std::string> input =
+            AOC::fetchAOCInputVector(2025, 3);
 
         std::println("Part 1 ans : {}", part1(input));
         std::println("Part 2 ans : {}", part2(input));
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << "Error fetching input: " << e.what() << "\n";
         return 1;
     }

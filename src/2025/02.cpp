@@ -1,12 +1,13 @@
-#include <string>
-#include <vector>
-#include <sstream>
-#include <utility>
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "AOC.hpp"
 
-std::vector<std::pair<long long, long long> > parseRanges(const std::string_view input) {
+std::vector<std::pair<long long, long long> > parseRanges(
+    const std::string_view input) {
     std::vector<std::pair<long long, long long> > result;
     std::istringstream ss((input.data()));
     std::string token;
@@ -58,7 +59,7 @@ long long part1(const std::string_view input) {
     auto ranges = parseRanges(input);
     long long sum = 0;
 
-    for (auto [start, end]: ranges) {
+    for (auto [start, end] : ranges) {
         for (long long n = start; n <= end; ++n) {
             if (isDoubleRepeated(n)) {
                 sum += n;
@@ -73,7 +74,7 @@ long long part2(std::string_view input) {
     auto ranges = parseRanges(input);
     long long sum = 0;
 
-    for (auto [start, end]: ranges) {
+    for (auto [start, end] : ranges) {
         for (long long n = start; n <= end; ++n) {
             if (isRepeatedAtLeastTwice(n)) {
                 sum += n;
@@ -89,7 +90,7 @@ int main() {
         const std::string input = AOC::fetchRawInput(2025, 2);
         std::println("Part 1 ans : {}", part1(input));
         std::println("Part 2 ans : {}", part2(input));
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << "Error fetching input: " << e.what() << "\n";
         return 1;
     }
