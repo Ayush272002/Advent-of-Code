@@ -73,8 +73,14 @@ int main() {
         const std::vector<std::string> input =
             AOC::fetchAOCInputVector(2025, 3);
 
-        std::println("Part 1 ans : {}", part1(input));
-        std::println("Part 2 ans : {}", part2(input));
+        std::string part1_ans = std::to_string(part1(input));
+        std::string part2_ans = std::to_string(part2(input));
+
+        std::println("Part 1 ans : {}", part1_ans);
+        std::println("Part 2 ans : {}", part2_ans);
+
+        AOC::submitAnswer(2025, 3, 1, part1_ans);
+        AOC::submitAnswer(2025, 3, 2, part2_ans);
     } catch (const std::exception& e) {
         std::cerr << "Error fetching input: " << e.what() << "\n";
         return 1;

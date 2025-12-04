@@ -88,8 +88,15 @@ long long part2(std::string_view input) {
 int main() {
     try {
         const std::string input = AOC::fetchRawInput(2025, 2);
-        std::println("Part 1 ans : {}", part1(input));
-        std::println("Part 2 ans : {}", part2(input));
+
+        std::string part1_ans = std::to_string(part1(input));
+        std::string part2_ans = std::to_string(part2(input));
+
+        std::println("Part 1 ans : {}", part1_ans);
+        std::println("Part 2 ans : {}", part2_ans);
+
+        AOC::submitAnswer(2025, 2, 1, part1_ans);
+        AOC::submitAnswer(2025, 2, 2, part2_ans);
     } catch (const std::exception& e) {
         std::cerr << "Error fetching input: " << e.what() << "\n";
         return 1;
