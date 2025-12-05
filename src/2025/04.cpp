@@ -48,7 +48,7 @@ int part2(std::vector<std::string>& input) {
 
         if (toRemove.empty()) break;
 
-        for (auto&[fst, snd] : toRemove) {
+        for (auto& [fst, snd] : toRemove) {
             input[fst][snd] = '.';
         }
 
